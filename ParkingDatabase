@@ -1,0 +1,55 @@
+using System;
+using System.Collections.Generic;
+
+namespace Exercise
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int countOfUsers = int.Parse(Console.ReadLine());
+            var database = new Dictionary<string, string>();
+            for (int i = 0; i < countOfUsers; i++)
+            {
+                string[] input = Console.ReadLine().Split();
+
+                var command = input[0];
+                var user = input[1];
+
+                if (command == "register")
+                {
+                    var plateNumber = input[2];
+                    if (!database.ContainsKey(user))
+                    {
+                        database.Add(user, plateNumber);
+                        Console.WriteLine($"{user} registered {plateNumber} " +
+                            $"successfully");
+                    }
+                    else if (database.ContainsKey(user))
+                    {
+                        Console.WriteLine($"ERROR: already registered with " +
+                            $"plate number {plateNumber}");
+                    }
+                }
+                else if (command == "unregister")
+                {
+                    if (database.ContainsKey(user))
+                    {
+                        database.Remove(user);
+                        Console.WriteLine($"{user} unregistered " +
+                            $"successfully");
+                    }
+                    else if (!database.ContainsKey(user))
+                    {
+                        Console.WriteLine($"ERROR: user {user} not found");
+                    }
+                }
+            }
+            foreach (var item in database)
+            {
+                Console.WriteLine($"{item.Key} => {item.Value}");
+            }
+
+        }
+    }
+}
