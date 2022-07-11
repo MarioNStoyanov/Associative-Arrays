@@ -1,0 +1,50 @@
+using System;
+using System.Collections.Generic;
+
+namespace Exercise
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var orders = new Dictionary<string, double>();
+            var bill = new Dictionary<string, double>();
+            string command = Console.ReadLine();
+            while (command != "buy")
+            {
+                string[] commandArr = command.Split();
+                var productName = commandArr[0];
+                double productPrice = double.Parse(commandArr[1]);
+                int productQuantity = int.Parse(commandArr[2]);
+
+                if (!bill.ContainsKey(productName))
+                {
+                    bill.Add(productName, productQuantity);
+                    orders.Add(productName, productPrice);
+
+
+                }
+                else if (orders.ContainsKey(productName))
+                {
+                    orders.Remove(productName);
+                    orders.Add(productName, productPrice);
+                    bill[productName] += productQuantity;
+                }
+
+                command = Console.ReadLine();
+            }
+            foreach (var item in bill)
+            {
+                foreach (var order in orders)
+                {
+                    if (order.Key == item.Key)
+                    {
+
+                        Console.WriteLine($"{item.Key} -> {item.Value * order.Value:F2}");
+                    }
+
+                }
+            }
+        }
+    }
+}
